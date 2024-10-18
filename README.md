@@ -35,7 +35,7 @@ The Weather Map API Project provides real-time weather information for any locat
    pip install -r requirements.txt
    ```
 
-4. **Get your API key from [OpenWeatherMap](https://openweathermap.org/).**
+4. **Get your API key from [StormGlass API and OpenCageData API]**
 
 5. **Run the application:**
    ```bash
