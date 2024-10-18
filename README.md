@@ -2,8 +2,6 @@
 
 # Weather Map API Project
 
-![Weather Map](path/to/your/image.png)  
-*(Replace with an actual image path for your project)*
 
 ## Overview
 
