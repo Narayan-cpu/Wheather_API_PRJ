@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    {% load static %}
+    <link rel="icon" href="{% static '/cloud-sun_10497846.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #4facfe, #00f2fe);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        /* Weather Form */
+        .weather-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        input[type="text"] {
+            width: 70%; /* Fixed width */
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid #00f2fe;
+            margin-bottom: 10px; /* Reduced margin to avoid shifts */
+            font-size: 1.2rem;
+            transition: none; /* Disable transition */
+        }
+
+        input[type="text"]:focus {
+            border-color: #4facfe;
+            outline: none;
+        }
+
+        button {
+            width: 70%; /* Fixed width */
+            background-color: #4facfe;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: none; /* Disable transition */
+        }
+
+        button:hover {
+            background-color: #00f2fe;
+        }
+
+        .weather-info {
+            margin-top: 20px; /* Reduced margin to prevent shifts */
+            text-align: center;
+            height: 150px; /* Fixed height to prevent layout shifts */
+            overflow: hidden; /* Prevent overflow */
+        }
+
+        .weather-info p {
+            font-size: 1.3rem;
+            margin: 10px 0;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Raindrop Animation */
+        .raindrops {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .raindrop {
+            position: absolute;
+            bottom: 100%;
+            width: 15px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: drop 1.5s infinite ease-in;
+        }
+
+        @keyframes drop {
+            0% {
+                bottom: 100%;
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                bottom: -30px;
+                opacity: 0;
+            }
+        }
+
+        /* Position raindrops at random locations */
+        .raindrop:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .raindrop:nth-child(2) { left: 25%; animation-delay: 0.4s; }
+        .raindrop:nth-child(3) { left: 40%; animation-delay: 0.7s; }
+        .raindrop:nth-child(4) { left: 55%; animation-delay: 1s; }
+        .raindrop:nth-child(5) { left: 70%; animation-delay: 1.3s; }
+        .raindrop:nth-child(6) { left: 85%; animation-delay: 1.6s; }
+    </style>
+</head>
+<body>
+    <div class="weather-container">
+        <h1 style="text-align: center;">Weather Information</h1>
+
+        <!-- Form to accept location input from the user -->
+        <form class="weather-form" method="POST">
+            {% csrf_token %}
+            <input type="text" name="location" placeholder="Enter a location" required autocomplete="off">
+            <button type="submit">Get Weather</button>
+        </form>
+
+        <div class="weather-info">
+            {% if location %}
+                <p><strong>Location:</strong> {{ location }} (Lat: {{ latitude }}, Lng: {{ longitude }})</p>
+                {% if temperature %}
+                    <p><strong>Temperature:</strong> {{ temperature }}°C</p>
+                    <p><strong>Wind Speed:</strong> {{ wind_speed }} m/s</p>
+                {% else %}
+                    <p>Weather information is unavailable at the moment. Please try again later.</p>
+                {% endif %}
+            {% elif error %}
+                <p>{{ error }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="raindrops"></div> <!-- Add raindrops here -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const rainContainer = document.querySelector(".raindrops");
+
+            // Function to create raindrop elements
+            function createRaindrops() {
+                for (let i = 0; i < 6; i++) {
+                    let raindrop = document.createElement("div");
+                    raindrop.classList.add("raindrop");
+                    rainContainer.appendChild(raindrop);
+                }
+            }
+
+            // Create raindrops when page loads
+            createRaindrops();
+        });
+    </script>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>
