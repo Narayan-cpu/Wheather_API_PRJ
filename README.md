@@ -5,7 +5,7 @@
 
 ## Overview
 
-The Weather Map API Project provides real-time weather information for any location using the OpenWeatherMap API. Users can input a city name to get current weather details, including temperature, humidity, and wind speed.
+The Weather Map API Project provides real-time weather information for any location using the StormGlass API and OpenCageData API. Users can input a city name to get current weather details, including temperature, humidity, and wind speed.
 
 
 ![Screenshot (335)](https://github.com/user-attachments/assets/5af8504b-67d4-4c27-aab8-cd716995b939)
